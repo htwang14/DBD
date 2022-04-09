@@ -1,7 +1,7 @@
 ---
 pretrain_config_path: config/defense/simclr/badnets/cifar10_resnet18/example.yaml
-pretrain_checkpoint: epoch100.pt
-prefetch: True  # turn on prefetch mode will speedup io
+pretrain_checkpoint: latest_model.pt
+prefetch: False  # turn on prefetch mode will speedup io
 transform:
   pre: null
   train:
@@ -14,19 +14,22 @@ transform:
         p: 0.5
     remaining:
       to_tensor: True
-      normalize:
-        mean: [0.4914, 0.4822, 0.4465]
-        std: [0.2023, 0.1994, 0.2010]
+      # normalize:
+      #   mean: [0.4914, 0.4822, 0.4465]
+      #   std: [0.2023, 0.1994, 0.2010]
   test:
     primary: null
     remaining:
       to_tensor: True
-      normalize:
-        mean: [0.4914, 0.4822, 0.4465]
-        std: [0.2023, 0.1994, 0.2010]
+      # normalize:
+      #   mean: [0.4914, 0.4822, 0.4465]
+      #   std: [0.2023, 0.1994, 0.2010]
 network:
   resnet18_cifar:
     num_classes: 10
+  CDWRN28:
+    num_classes: 10
+    widen_factor: 2
 warmup:
   loader:
     batch_size: 128
