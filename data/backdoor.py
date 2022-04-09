@@ -15,22 +15,21 @@ class BadNets(object):
      Tianyu Gu, et al. IEEE Access 2019.
     """
 
-    def __init__(self, trigger_path):
-        with open(trigger_path, "rb") as f:
-            trigger_ptn = Image.open(f).convert("RGB")
-        self.trigger_ptn = np.array(trigger_ptn)
-        self.trigger_loc = np.nonzero(self.trigger_ptn)
+    def __init__(self, trigger_size):
+        self.trigger_size = trigger_size
 
     def __call__(self, img):
         return self.add_trigger(img)
 
     def add_trigger(self, img):
-        if not isinstance(img, np.ndarray):
-            raise TypeError("Img should be np.ndarray. Got {}".format(type(img)))
-        if len(img.shape) != 3:
-            raise ValueError("The shape of img should be HWC. Got {}".format(img.shape))
-        img[self.trigger_loc] = 0
-        poison_img = img + self.trigger_ptn
+        poison_img = img 
+
+        width = img.shape[0]
+        height = img.shape[1]
+
+        for j in range(width - 1 - self.trigger_size, width - 1):
+            for k in range(height - 1 - self.trigger_size, height - 1):
+                poison_img[j, k] = 255.0
 
         return poison_img
 

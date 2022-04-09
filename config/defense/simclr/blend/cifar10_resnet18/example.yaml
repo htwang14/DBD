@@ -3,7 +3,7 @@ seed:
   seed: 100
   deterministic: False
   benchmark: True
-dataset_dir: ~/dataset/cifar-10/cifar-10-batches-py
+dataset_dir: /ssd1/haotao/datasets/cifar-10-batches-py/
 num_classes: 10
 saved_dir: ./saved_data
 storage_dir: ./storage
@@ -31,9 +31,9 @@ transform:
         sigma: [0.1, 2.0]
     remaining:
       to_tensor: True
-      normalize:
-        mean: [0.4914, 0.4822, 0.4465]
-        std: [0.2023, 0.1994, 0.2010]
+      # normalize:
+      #   mean: [0.4914, 0.4822, 0.4465]
+      #   std: [0.2023, 0.1994, 0.2010]
   train:
     primary:
       random_resize_crop:
@@ -44,19 +44,19 @@ transform:
         p: 0.5
     remaining:
       to_tensor: True
-      normalize:
-        mean: [0.4914, 0.4822, 0.4465]
-        std: [0.2023, 0.1994, 0.2010]
+      # normalize:
+      #   mean: [0.4914, 0.4822, 0.4465]
+      #   std: [0.2023, 0.1994, 0.2010]
   test:
     primary: null
     remaining:
       to_tensor: True
-      normalize:
-        mean: [0.4914, 0.4822, 0.4465]
-        std: [0.2023, 0.1994, 0.2010]
+      # normalize:
+      #   mean: [0.4914, 0.4822, 0.4465]
+      #   std: [0.2023, 0.1994, 0.2010]
 backdoor:
-  poison_ratio: 0.05
-  target_label: 3
+  poison_ratio: 0.01 # 0.05
+  target_label: 0
   blend:
     alpha: 0.1
     trigger_path: ./data/trigger/hello_kitty.png
@@ -67,6 +67,9 @@ loader:
 network:
   resnet18_cifar:
     num_classes: 10
+  CDWRN28:
+    num_classes: 10
+    widen_factor: 2
 sync_bn: True  # synchronized batch normalization
 criterion:
   simclr:

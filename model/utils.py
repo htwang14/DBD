@@ -7,11 +7,14 @@ from torch.optim import lr_scheduler
 
 from .loss import MixMatchLoss, SCELoss, SimCLRLoss
 from .network import resnet_cifar
+from .network.se_wideresnet import CDWRN28
 
 
 def get_network(network_config):
     if "resnet18_cifar" in network_config:
         model = resnet_cifar.resnet18(**network_config["resnet18_cifar"])
+    elif "CDWRN28" in network_config:
+        model = CDWRN28(**network_config["CDWRN28"])
     else:
         raise ValueError("Network {} is not supported.".format(network_config))
 

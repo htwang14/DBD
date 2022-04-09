@@ -40,11 +40,11 @@ from utils.trainer.simclr import simclr_train
 def main():
     print("===Setup running===")
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config", default="./config/defense/simclr/example.yaml")
+    parser.add_argument("--config", default="./config/defense/simclr/badnets/cifar10_resnet18/example.yaml")
     parser.add_argument("--gpu", default="0", type=str)
     parser.add_argument(
         "--resume",
-        default="",
+        default="False",
         type=str,
         help="checkpoint name (empty string means the latest checkpoint)\
             or False (means training from scratch).",

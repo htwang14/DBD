@@ -94,8 +94,12 @@ def gen_poison_idx(dataset, target_label, poison_ratio=None):
     train = dataset.train
     for (i, t) in enumerate(dataset.targets):
         if train and poison_ratio is not None:
-            if random.random() < poison_ratio and t != target_label:
+            # if random.random() < poison_ratio and t != target_label:
+            #     poison_idx[i] = 1
+            if t != target_label:
                 poison_idx[i] = 1
+                if np.mean(poison_idx) >= poison_ratio:
+                    break
         else:
             if t != target_label:
                 poison_idx[i] = 1
@@ -105,7 +109,7 @@ def gen_poison_idx(dataset, target_label, poison_ratio=None):
 
 def get_bd_transform(bd_config):
     if "badnets" in bd_config:
-        bd_transform = BadNets(bd_config["badnets"]["trigger_path"])
+        bd_transform = BadNets(bd_config["badnets"]["trigger_size"])
     elif "blend" in bd_config:
         bd_transform = Blend(**bd_config["blend"])
     else:
