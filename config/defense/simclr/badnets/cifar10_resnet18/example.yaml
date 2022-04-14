@@ -3,9 +3,9 @@ seed:
   seed: 100
   deterministic: False
   benchmark: True
-dataset_dir: /ssd1/haotao/datasets/cifar-10-batches-py/
+dataset_dir: ~/dataset/cifar-10/cifar-10-batches-py
 num_classes: 10
-saved_dir: ./saved_data
+saved_dir: ./storage
 storage_dir: ./storage
 prefetch: True  # turn on prefetch mode will speedup io
 transform:
@@ -31,9 +31,9 @@ transform:
         sigma: [0.1, 2.0]
     remaining:
       to_tensor: True
-      # normalize:
-      #   mean: [0.4914, 0.4822, 0.4465]
-      #   std: [0.2023, 0.1994, 0.2010]
+      normalize:
+        mean: [0.4914, 0.4822, 0.4465]
+        std: [0.2023, 0.1994, 0.2010]
   train:
     primary:
       random_resize_crop:
@@ -44,21 +44,21 @@ transform:
         p: 0.5
     remaining:
       to_tensor: True
-      # normalize:
-      #   mean: [0.4914, 0.4822, 0.4465]
-      #   std: [0.2023, 0.1994, 0.2010]
+      normalize:
+        mean: [0.4914, 0.4822, 0.4465]
+        std: [0.2023, 0.1994, 0.2010]
   test:
     primary: null
     remaining:
       to_tensor: True
-      # normalize:
-      #   mean: [0.4914, 0.4822, 0.4465]
-      #   std: [0.2023, 0.1994, 0.2010]
+      normalize:
+        mean: [0.4914, 0.4822, 0.4465]
+        std: [0.2023, 0.1994, 0.2010]
 backdoor:
-  poison_ratio: 0.01 # 0.05
-  target_label: 0
+  poison_ratio: 0.05
+  target_label: 3
   badnets:
-    trigger_size: 4
+    trigger_path: ./data/trigger/cifar_1.png
 loader:
   batch_size: 512
   num_workers: 4  # 4*num_gpus
@@ -66,9 +66,6 @@ loader:
 network:
   resnet18_cifar:
     num_classes: 10
-  CDWRN28:
-    num_classes: 10
-    widen_factor: 2
 sync_bn: True  # synchronized batch normalization
 criterion:
   simclr:
